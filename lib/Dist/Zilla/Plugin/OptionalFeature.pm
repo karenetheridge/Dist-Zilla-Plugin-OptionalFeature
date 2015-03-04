@@ -47,6 +47,11 @@ has default => (
     # NO DEFAULT
 );
 
+has load_prereqs => (
+    is => 'ro', isa => Bool,
+    default => 1,
+);
+
 has _prereq_phase => (
     is => 'ro', isa => NonEmptySimpleStr,
     lazy => 1,
@@ -84,7 +89,7 @@ around BUILDARGS => sub
 
     my %opts = (
         map { exists $args->{$_} ? ( substr($_, 1) => delete($args->{$_}) ) : () }
-        qw(-name -description -always_recommend -require_develop -prompt -default -phase -type));
+        qw(-name -description -always_recommend -require_develop -prompt -default -load_prereqs -phase -type));
     $opts{type} //= delete $args->{'-relationship'} if defined $args->{'-relationship'};
 
     my @other_options = grep { /^-/ } keys %$args;
@@ -145,10 +150,11 @@ has _dynamicprereqs_prompt => (
         my @assignments = map {
             qq!\$WriteMakefileArgs{$mm_key}{'$_'} = \$FallbackPrereqs{'$_'} = '${ \$self->_prereq_version($_) }'!
         } sort $self->_prereq_modules;
-        my $require_clause = 'eval "' . join('', map {
+        my $require_clause = !$self->load_prereqs ? ''
+            : ('eval "' . join('', map {
                 my $version = $self->_prereq_version($_);
                 "require $_; " . ($version ? "$_->VERSION('$version'); " : '')
-            } sort $self->_prereq_modules) . '1"' . "\n    || ";
+            } sort $self->_prereq_modules) . '1"' . "\n    || ");
 
         # TODO: in the future, [DynamicPrereqs] will have more sophisticated
         # options, so we would just need to pass the prompt text, default
@@ -207,6 +213,7 @@ around dump_config => sub
     $config->{+__PACKAGE__} = {
         (map { $_ => $self->$_ }
             qw(name description always_recommend require_develop prompt)),
+        $self->prompt ? ( load_prereqs => $self->load_prereqs ) : (),
         # FIXME: YAML::Tiny does not handle leading - properly yet
         # (map { defined $self->$_ ? ( '-' . $_ => $self->$_ ) : () }
         (map { defined $self->$_ ? ( $_ => $self->$_ ) : () } qw(default)),
@@ -401,6 +408,16 @@ prompts.
 
 Default is C<true> if C<-relationship> is C<requires>.
 C<false> otherwise.
+
+=item * C<-load_prereqs>
+
+(Available since version 0.021)
+
+If set, and C<-prompt> is also set, the prerequisites to be added by the feature
+are checked for in the Perl installation; if the requirements are already met,
+then the feature is automatically added.
+
+Default is C<true>.
 
 =item * C<-default>
 

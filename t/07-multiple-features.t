@@ -115,6 +115,7 @@ cmp_deeply(
                             require_develop => 1,
                             prompt => 1,
                             default => 1,
+                            load_prereqs => 1,
                             phase => 'runtime',
                             type => 'requires',
                             prereqs => {
@@ -136,6 +137,7 @@ cmp_deeply(
                             require_develop => 1,
                             prompt => 1,
                             default => 1,
+                            load_prereqs => 1,
                             phase => 'runtime',
                             type => 'requires',
                             prereqs => {

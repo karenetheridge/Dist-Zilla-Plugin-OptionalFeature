@@ -91,6 +91,7 @@ binmode STDERR, ':encoding(UTF-8)';
                                 require_develop => 1,
                                 prompt => 1,
                                 default => 1,
+                                load_prereqs => 1,
                                 phase => 'runtime',
                                 type => 'requires',
                                 prereqs => {
@@ -205,6 +206,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
                                 require_develop => 1,
                                 prompt => 1,
                                 default => 0,
+                                load_prereqs => 1,
                                 phase => 'test',
                                 type => 'requires',
                                 prereqs => {
@@ -357,6 +359,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
                                 require_develop => 1,
                                 prompt => 1,
                                 default => 0,
+                                load_prereqs => 1,
                                 phase => 'test',
                                 type => 'requires',
                                 prereqs => {
