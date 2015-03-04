@@ -121,7 +121,8 @@ binmode STDERR, ':encoding(UTF-8)';
         $content,
         qr!
 \$\QWriteMakefileArgs{PREREQ_PM}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0'\E
-  \Qif prompt('install feature description? [Y/n]', 'Y') =~ /^y/i;\E
+  \Qif eval "require Foo; Foo->VERSION('1.0'); 1"
+    || prompt('install feature description? [Y/n]', 'Y') =~ /^y/i;\E
 !,
         'Makefile.PL contains the correct code for runtime prereqs with -prompt = 1',
     );
@@ -234,7 +235,8 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
     like(
         $content,
         qr!
-\Qif (prompt('install feature description? [y/N]', 'N') =~ /^y/i) {\E
+\Qif (eval "require Bar; Bar->VERSION('2.0'); require Foo; Foo->VERSION('1.0'); 1"
+    || prompt('install feature description? [y/N]', 'N') =~ /^y/i) {\E
   \$\QWriteMakefileArgs{TEST_REQUIRES}{'Bar'} = \E\$\QFallbackPrereqs{'Bar'} = '2.0';\E
   \$\QWriteMakefileArgs{TEST_REQUIRES}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0';\E
 !,
@@ -385,7 +387,8 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
     like(
         $content,
         qr!
-\Qif (prompt('install feature description with "çƦăż\'ɏ" characters? [y/N]', 'N') =~ /^y/i) {\E
+\Qif (eval "require Bar; Bar->VERSION('2.0'); require Foo; Foo->VERSION('1.0'); 1"
+    || prompt('install feature description with "çƦăż\'ɏ" characters? [y/N]', 'N') =~ /^y/i) {\E
   \$\QWriteMakefileArgs{TEST_REQUIRES}{'Bar'} = \E\$\QFallbackPrereqs{'Bar'} = '2.0';\E
   \$\QWriteMakefileArgs{TEST_REQUIRES}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0';\E
 !,

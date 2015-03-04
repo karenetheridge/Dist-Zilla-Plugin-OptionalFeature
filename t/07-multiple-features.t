@@ -166,12 +166,14 @@ like(
     $content,
     qr!
 # inserted by .*$
-\Qif (prompt('install feature description 1? [Y/n]', 'Y') =~ /^y/i) {\E
+\Qif (eval "require Bar; Bar->VERSION('2.0'); require Foo; Foo->VERSION('1.0'); 1"
+    || prompt('install feature description 1? [Y/n]', 'Y') =~ /^y/i) {\E
   \$\QWriteMakefileArgs{PREREQ_PM}{'Bar'} = \E\$\QFallbackPrereqs{'Bar'} = '2.0';\E
   \$\QWriteMakefileArgs{PREREQ_PM}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0';\E
 \}
 \$\QWriteMakefileArgs{PREREQ_PM}{'Baz'} = \E\$\QFallbackPrereqs{'Baz'} = '3.0'\E
-  \Qif prompt('install feature description 2? [Y/n]', 'Y') =~ /^y/i;\E
+  \Qif eval "require Baz; Baz->VERSION('3.0'); 1"
+    || prompt('install feature description 2? [Y/n]', 'Y') =~ /^y/i;\E
 !m,
     # } to mollify vim
     'Makefile.PL contains the correct code, in order, for two optional features',

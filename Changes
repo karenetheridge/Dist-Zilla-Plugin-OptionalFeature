@@ -3,6 +3,9 @@ Revision history for {{$dist->name}}
 {{$NEXT}}
           - Incorporate some minor documentation improvements based on annocpan
             notes
+          - before prompting the user regarding the feature(s), first ensure
+            the resulting prereqs are not already installed (thanks for the
+            idea, Alberto Simões!)
 
 0.020     2014-11-29 04:53:50Z
           - when setting up prompting in Makefile.PL for multiple optional

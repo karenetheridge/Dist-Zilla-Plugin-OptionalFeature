@@ -145,6 +145,10 @@ has _dynamicprereqs_prompt => (
         my @assignments = map {
             qq!\$WriteMakefileArgs{$mm_key}{'$_'} = \$FallbackPrereqs{'$_'} = '${ \$self->_prereq_version($_) }'!
         } sort $self->_prereq_modules;
+        my $require_clause = 'eval "' . join('', map {
+                my $version = $self->_prereq_version($_);
+                "require $_; " . ($version ? "$_->VERSION('$version'); " : '')
+            } sort $self->_prereq_modules) . '1"' . "\n    || ";
 
         # TODO: in the future, [DynamicPrereqs] will have more sophisticated
         # options, so we would just need to pass the prompt text, default
@@ -152,11 +156,11 @@ has _dynamicprereqs_prompt => (
         [
             @assignments > 1
                 ? (
-                    'if (' . $prompt . ') {',   # to mollify vim
+                    'if (' . $require_clause . $prompt . ') {',   # to mollify vim
                     (map { '  ' . $_ . ';' } @assignments),
                     '}',
                   )
-                : ( @assignments, '  if ' . $prompt . ';' )
+                : ( @assignments, '  if ' . $require_clause . $prompt . ';' )
         ];
     },
 );
