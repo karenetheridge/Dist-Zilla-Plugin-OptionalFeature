@@ -82,46 +82,43 @@ around BUILDARGS => sub
     # pull these out so they don't become part of our prereq list
     my ($zilla, $plugin_name) = delete @{$args}{qw(zilla plugin_name)};
 
-    my ($feature_name, $description, $always_recommend, $require_develop, $prompt, $default, $phase) =
-        delete @{$args}{qw(-name -description -always_recommend -require_develop -prompt -default -phase)};
-    my ($type) = grep { defined } delete @{$args}{qw(-type -relationship)};
+    my %opts = (
+        map { exists $args->{$_} ? ( substr($_, 1) => delete($args->{$_}) ) : () }
+        qw(-name -description -always_recommend -require_develop -prompt -default -phase -type));
+    $opts{type} //= delete $args->{'-relationship'} if defined $args->{'-relationship'};
 
     my @other_options = grep { /^-/ } keys %$args;
     delete @{$args}{@other_options};
     warn "[OptionalFeature] warning: unrecognized option(s): @other_options" if @other_options;
 
     # handle magic plugin names
-    if ((not $feature_name or not $phase or not $type)
+    if ((not $opts{name} or not $opts{phase} or not $opts{type})
             # plugin comes from a bundle
         and $plugin_name !~ m! (?: \A | / ) OptionalFeature \z !x)
     {
-        $feature_name ||= $plugin_name;
+        $opts{name} ||= $plugin_name;
 
-        if ($feature_name =~ / -
+        if ($opts{name} =~ / -
                 (Build|Test|Runtime|Configure|Develop)
                 (Requires|Recommends|Suggests|Conflicts)?
             \z/xp)
         {
-            $feature_name = ${^PREMATCH};
-            $phase ||= lc($1) if $1;
-            $type = lc($2) if $2;
+            $opts{name} = ${^PREMATCH};
+            $opts{phase} ||= lc($1) if $1;
+            $opts{type} = lc($2) if $2;
         }
     }
 
     confess 'optional features may not use the configure phase'
-        if $phase and $phase eq 'configure';
+        if $opts{phase} and $opts{phase} eq 'configure';
+
+    $opts{_prereq_phase} = delete $opts{phase} if exists $opts{phase};
+    $opts{_prereq_type} = delete $opts{type} if exists $opts{type};
 
     return {
         zilla => $zilla,
         plugin_name => $plugin_name,
-        defined $feature_name ? ( name => $feature_name ) : (),
-        defined $description ? ( description => $description ) : (),
-        defined $always_recommend ? ( always_recommend => $always_recommend ) : (),
-        defined $require_develop ? ( require_develop => $require_develop ) : (),
-        defined $prompt ? ( prompt => $prompt ) : (),
-        defined $default ? ( default => $default ) : (),
-        defined $phase ? ( _prereq_phase => $phase ) : (),
-        defined $type ? ( _prereq_type => $type ) : (),
+        %opts,
         _prereqs => $args,
     };
 };
