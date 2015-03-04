@@ -123,7 +123,7 @@ binmode STDERR, ':encoding(UTF-8)';
 \$\QWriteMakefileArgs{PREREQ_PM}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0'\E
   \Qif prompt('install feature description? [Y/n]', 'Y') =~ /^y/i;\E
 !,
-        'Makefile.PL contains the correct code for runtime prereqs with -default = 1',
+        'Makefile.PL contains the correct code for runtime prereqs with -prompt = 1',
     );
 
     diag 'got log messages: ', explain $tzil->log_messages
@@ -239,7 +239,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
   \$\QWriteMakefileArgs{TEST_REQUIRES}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0';\E
 !,
         # } to mollify vim
-        'Makefile.PL contains the correct code for runtime prereqs with -default = 1',
+        'Makefile.PL contains the correct code for runtime prereqs with -prompt = 1',
     );
 
     diag 'got log messages: ', explain $tzil->log_messages
@@ -390,7 +390,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
   \$\QWriteMakefileArgs{TEST_REQUIRES}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0';\E
 !,
         # } to mollify vim
-        'Makefile.PL contains the correct code for runtime prereqs with -default = 1',
+        'Makefile.PL contains the correct code for runtime prereqs with -prompt = 1',
     );
 
     diag 'got log messages: ', explain $tzil->log_messages
