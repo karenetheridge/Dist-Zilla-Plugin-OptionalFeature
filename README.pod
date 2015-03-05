@@ -8,7 +8,7 @@ Dist::Zilla::Plugin::OptionalFeature - Specify prerequisites for optional featur
 
 =head1 VERSION
 
-version 0.020
+version 0.021
 
 =head1 SYNOPSIS
 
@@ -119,14 +119,18 @@ Defaults to the feature name, if not provided.
 If set with a true value, the prerequisites are added to the distribution's
 metadata as recommended prerequisites (e.g. L<cpanminus> will install
 recommendations with C<--with-recommends>, even when running
-non-interactively). Defaults to false, but I recommend you turn this on.
+non-interactively).
+
+Defaults to C<false>, but I recommend you turn this on.
 
 =item * C<-require_develop>
 
 If set with a true value, the prerequisites are added to the distribution's
 metadata as develop requires prerequisites (e.g. L<cpanminus> will install
 recommendations with C<--with-develop>, even when running
-non-interactively).  Defaults to true.
+non-interactively).
+
+Defaults to C<true>.
 
 =item * C<-prompt>
 
@@ -134,6 +138,19 @@ non-interactively).  Defaults to true.
 
 If set with a true value, F<Makefile.PL> is modified to include interactive
 prompts.
+
+Default is C<true> if C<-relationship> is C<requires>.
+C<false> otherwise.
+
+=item * C<-load_prereqs>
+
+(Available since version 0.021)
+
+If set, and C<-prompt> is also set, the prerequisites to be added by the feature
+are checked for in the Perl installation; if the requirements are already met,
+then the feature is automatically added.
+
+Default is C<true>.
 
 =item * C<-default>
 
@@ -153,10 +170,14 @@ under C<optional_feature> (thanks, miyagawa!)
 The phase of the prequisite(s). Should be one of: build, test, runtime,
 or develop.
 
+Default: C<runtime>
+
 =item * C<-relationship> (or C<-type>)
 
 The relationship of the prequisite(s). Should be one of: requires, recommends,
 suggests, or conflicts.
+
+Default: C<requires>
 
 =back
 
@@ -192,5 +213,11 @@ This software is copyright (c) 2013 by Karen Etheridge.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
+=head1 CONTRIBUTOR
+
+=for stopwords Kent Fredric
+
+Kent Fredric <kentnl@cpan.org>
 
 =cut
