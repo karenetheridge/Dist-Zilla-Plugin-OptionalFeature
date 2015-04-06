@@ -369,21 +369,17 @@ C<dzil build>.
 
 =head1 CONFIGURATION OPTIONS
 
-This is mostly a restating of the information above.
-
-=over 4
-
-=item * C<-name>
+=head2 C<-name>
 
 The name of the optional feature, to be presented to the user. Can also be
 extracted from the plugin name.
 
-=item * C<-description>
+=head2 C<-description>
 
 The description of the optional feature, to be presented to the user.
 Defaults to the feature name, if not provided.
 
-=item * C<-always_recommend>
+=head2 C<-always_recommend>
 
 If set with a true value, the prerequisites are added to the distribution's
 metadata as recommended prerequisites (e.g. L<cpanminus> will install
@@ -392,7 +388,7 @@ non-interactively).
 
 Defaults to C<false>, but I recommend you turn this on.
 
-=item * C<-require_develop>
+=head2 C<-require_develop>
 
 If set with a true value, the prerequisites are added to the distribution's
 metadata as develop requires prerequisites (e.g. L<cpanminus> will install
@@ -401,7 +397,7 @@ non-interactively).
 
 Defaults to C<true>.
 
-=item * C<-prompt>
+=head2 C<-prompt>
 
 (Available since version 0.017)
 
@@ -411,7 +407,7 @@ prompts.
 Default is C<true> if C<-relationship> is C<requires>.
 C<false> otherwise.
 
-=item * C<-load_prereqs>
+=head2 C<-load_prereqs>
 
 (Available since version 0.021)
 
@@ -421,7 +417,7 @@ then the feature is automatically added.
 
 Default is C<true>.
 
-=item * C<-default>
+=head2 C<-default>
 
 (Available since version 0.006)
 
@@ -434,21 +430,19 @@ Note that at the time of this feature's creation (September 2013), there is no
 compliant CPAN client yet, as it invents a new C<x_default> field in metadata
 under C<optional_feature> (thanks, miyagawa!)
 
-=item * C<-phase>
+=head2 C<-phase>
 
 The phase of the prequisite(s). Should be one of: build, test, runtime,
 or develop.
 
 Default: C<runtime>
 
-=item * C<-relationship> (or C<-type>)
+=head2 C<-relationship> (or C<-type>)
 
 The relationship of the prequisite(s). Should be one of: requires, recommends,
 suggests, or conflicts.
 
 Default: C<requires>
-
-=back
 
 =head1 SUPPORT
 
