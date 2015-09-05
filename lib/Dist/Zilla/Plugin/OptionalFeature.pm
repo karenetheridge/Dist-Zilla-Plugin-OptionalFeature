@@ -223,6 +223,7 @@ around dump_config => sub
         phase => $self->_prereq_phase,
         type => $self->_prereq_type,
         prereqs => $self->_prereqs,
+        blessed($self) ne __PACKAGE__ ? ( version => $VERSION ) : (),
     };
 
     return $config;
