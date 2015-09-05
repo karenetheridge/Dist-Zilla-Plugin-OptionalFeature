@@ -12,6 +12,14 @@ use Test::CPAN::Meta::JSON::Version;
 use Test::More;
 use Path::Tiny;
 
+# diag uses todo_output if in_todo :/
+no warnings 'redefine';
+*::diag = sub {
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    my $tb = Test::Builder->new;
+    $tb->_print_comment($tb->failure_output, @_);
+};
+
 sub is_valid_spec
 {
     my $tzil = shift;
