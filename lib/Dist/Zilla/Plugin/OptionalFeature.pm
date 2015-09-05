@@ -2,6 +2,7 @@ use strict;
 use warnings;
 package Dist::Zilla::Plugin::OptionalFeature;
 # ABSTRACT: Specify prerequisites for optional features in your distribution
+# KEYWORDS: plugin metadata prerequisites optional recommended prompt install
 # vim: set ts=8 sts=4 sw=4 tw=115 et :
 
 our $VERSION = '0.022';
