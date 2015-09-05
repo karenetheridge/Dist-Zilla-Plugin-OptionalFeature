@@ -62,8 +62,6 @@ binmode STDERR, ':encoding(UTF-8)';
             x_Dist_Zilla => superhashof({
                 plugins => supersetof({
                     class   => 'Dist::Zilla::Plugin::OptionalFeature',
-                    name    => 'FeatureName',
-                    version => Dist::Zilla::Plugin::OptionalFeature->VERSION,
                     config => {
                         'Dist::Zilla::Plugin::OptionalFeature' => {
                             name => 'FeatureName',
@@ -76,6 +74,8 @@ binmode STDERR, ':encoding(UTF-8)';
                             prereqs => { A => 0 },
                         },
                     },
+                    name    => 'FeatureName',
+                    version => Dist::Zilla::Plugin::OptionalFeature->VERSION,
                 }),
             }),
         }),
