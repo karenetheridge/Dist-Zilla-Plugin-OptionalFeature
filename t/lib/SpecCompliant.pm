@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package SpecCompliant;
 
-use Exporter 'import';
+use Exporter 5.57 'import';
 our @EXPORT = ('is_valid_spec');
 
 use YAML::Tiny;
