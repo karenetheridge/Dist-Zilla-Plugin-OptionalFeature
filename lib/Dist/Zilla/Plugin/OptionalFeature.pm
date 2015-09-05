@@ -214,8 +214,8 @@ around dump_config => sub
     my $config = $self->$orig;
 
     $config->{+__PACKAGE__} = {
-        (map { $_ => $self->$_ }
-            qw(name description always_recommend require_develop prompt)),
+        (map { $_ => $self->$_ } qw(name description )),
+        (map { $_ => ($self->$_ ? 1 : 0) } qw(always_recommend require_develop prompt)),
         $self->prompt ? ( load_prereqs => $self->load_prereqs ) : (),
         # FIXME: YAML::Tiny does not handle leading - properly yet
         # (map { defined $self->$_ ? ( '-' . $_ => $self->$_ ) : () }
