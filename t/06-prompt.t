@@ -23,7 +23,7 @@ binmode STDERR, ':encoding(UTF-8)';
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/does_not_exist' },
+        { dist_root => 'does-not-exist' },
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
@@ -136,7 +136,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/does_not_exist' },
+        { dist_root => 'does-not-exist' },
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
@@ -254,7 +254,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/does_not_exist' },
+        { dist_root => 'does-not-exist' },
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
@@ -289,7 +289,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/does_not_exist' },
+        { dist_root => 'does-not-exist' },
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(

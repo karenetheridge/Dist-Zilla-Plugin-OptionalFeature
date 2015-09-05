@@ -12,7 +12,7 @@ use SpecCompliant;
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/does_not_exist' },
+        { dist_root => 'does-not-exist' },
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
@@ -92,7 +92,7 @@ use SpecCompliant;
     # if we always provide x_default in the metadata, this test is pretty
     # redundant with most of t/01-basic.t.
     my $tzil = Builder->from_config(
-        { dist_root => 't/does_not_exist' },
+        { dist_root => 'does-not-exist' },
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(

@@ -13,7 +13,7 @@ use Config::MVP::Reader::INI 2.101461;  # for spaces in section names
 
 {
     my $tzil = Builder->from_config(
-        { dist_root => 't/does_not_exist' },
+        { dist_root => 'does-not-exist' },
         {
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
