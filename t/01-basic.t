@@ -380,7 +380,7 @@ binmode STDERR, ':encoding(UTF-8)';
 TODO:
 {
     todo_skip 'CPAN::Meta::Merge cannot yet merge two related optional_features sections', 2
-        if Dist::Zilla->VERSION >= 5.022;
+        if Dist::Zilla->VERSION >= 5.022 and CPAN::Meta::Merge->VERSION < 2.143240;
 
     my $tzil = Builder->from_config(
         { dist_root => 't/corpus/dist/DZT' },
