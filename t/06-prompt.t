@@ -70,7 +70,7 @@ binmode STDERR, ':encoding(UTF-8)';
                 },
             },
             prereqs => {
-                configure => { requires => { 'ExtUtils::MakeMaker' => ignore } },
+                configure => { requires => ignore },
                 test => { requires => { Tester => 0 } },
                 # no test recommendations
                 develop => { requires => {
@@ -121,8 +121,8 @@ binmode STDERR, ':encoding(UTF-8)';
     like(
         $content,
         qr!
-\$\QWriteMakefileArgs{PREREQ_PM}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0'\E
-  \Qif eval "require Foo; Foo->VERSION('1.0'); 1"
+\Qrequires('Foo', '1.0')\E
+  \Qif has_module('Foo', '1.0')
     || prompt('install feature description? [Y/n]', 'Y') =~ /^y/i;\E
 !,
         'Makefile.PL contains the correct code for runtime prereqs with -prompt = 1',
@@ -184,7 +184,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
                 },
             },
             prereqs => {
-                configure => { requires => { 'ExtUtils::MakeMaker' => ignore } },
+                configure => { requires => ignore },
                 test => { requires => { Tester => 0 } },
                 # no test recommendations
                 develop => { requires => {
@@ -237,10 +237,10 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
     like(
         $content,
         qr!
-\Qif (eval "require Bar; Bar->VERSION('2.0'); require Foo; Foo->VERSION('1.0'); 1"
+\Qif (has_module('Bar', '2.0') && has_module('Foo', '1.0')
     || prompt('install feature description? [y/N]', 'N') =~ /^y/i) {\E
-  \$\QWriteMakefileArgs{TEST_REQUIRES}{'Bar'} = \E\$\QFallbackPrereqs{'Bar'} = '2.0';\E
-  \$\QWriteMakefileArgs{TEST_REQUIRES}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0';\E
+  \Qtest_requires('Bar', '2.0');\E
+  \Qtest_requires('Foo', '1.0');\E
 !,
         # } to mollify vim
         'Makefile.PL contains the correct code for runtime prereqs with -prompt = 1',
@@ -337,7 +337,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
                 },
             },
             prereqs => {
-                configure => { requires => { 'ExtUtils::MakeMaker' => ignore } },
+                configure => { requires => ignore },
                 test => { requires => { Tester => 0 } },
                 # no test recommendations
                 develop => { requires => {
@@ -390,10 +390,10 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
     like(
         $content,
         qr!
-\Qif (eval "require Bar; Bar->VERSION('2.0'); require Foo; Foo->VERSION('1.0'); 1"
+\Qif (has_module('Bar', '2.0') && has_module('Foo', '1.0')
     || prompt('install feature description with "çƦăż\'ɏ" characters? [y/N]', 'N') =~ /^y/i) {\E
-  \$\QWriteMakefileArgs{TEST_REQUIRES}{'Bar'} = \E\$\QFallbackPrereqs{'Bar'} = '2.0';\E
-  \$\QWriteMakefileArgs{TEST_REQUIRES}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0';\E
+  \Qtest_requires('Bar', '2.0');\E
+  \Qtest_requires('Foo', '1.0');\E
 !,
         # } to mollify vim
         'Makefile.PL contains the correct code for runtime prereqs with -prompt = 1',

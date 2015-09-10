@@ -138,9 +138,9 @@ has _dynamicprereqs_prompt => (
         my $self = shift;
 
         my $phase = $self->_prereq_phase;
-        my $mm_key = $phase eq 'runtime' ? 'PREREQ_PM'
-            : $phase eq 'test' ? 'TEST_REQUIRES'
-            : $phase eq 'build' ? 'BUILD_REQUIRES'
+        my $function = $phase eq 'runtime' ? 'requires'
+            : $phase eq 'test' ? 'test_requires'
+            : $phase eq 'build' ? 'build_requires'
             : $self->log_fatal("illegal phase $phase");
         $self->log_fatal('prompts are only used for the \'requires\' type')
             if $self->_prereq_type ne 'requires';
@@ -150,26 +150,26 @@ has _dynamicprereqs_prompt => (
         my $prompt = "prompt('install $description? "
                 . ($self->default ? "[Y/n]', 'Y'" : "[y/N]', 'N'" )
                 . ') =~ /^y/i';
-        my @assignments = map {
-            qq!\$WriteMakefileArgs{$mm_key}{'$_'} = \$FallbackPrereqs{'$_'} = '${ \$self->_prereq_version($_) }'!
+        my @directives = map {
+            my $version = $self->_prereq_version($_);
+            $function . "('$_'" . ($version ? ", '$version'" : '') . ')'
         } sort $self->_prereq_modules;
-        my $require_clause = !$self->load_prereqs ? ''
-            : ('eval "' . join('', map {
-                my $version = $self->_prereq_version($_);
-                "require $_; " . ($version ? "$_->VERSION('$version'); " : '')
-            } sort $self->_prereq_modules) . '1"' . "\n    || ");
 
-        # TODO: in the future, [DynamicPrereqs] will have more sophisticated
-        # options, so we would just need to pass the prompt text, default
-        # answer, and list of prereqs and phases.
+        my $require_clause = !$self->load_prereqs ? ''
+            : (join(' && ', map {
+                my $version = $self->_prereq_version($_);
+                "has_module('$_'" . ($version ? ", '$version'" : '') . ')'
+            } sort $self->_prereq_modules
+        ) . "\n    || ");
+
         [
-            @assignments > 1
+            @directives > 1
                 ? (
                     'if (' . $require_clause . $prompt . ') {',   # to mollify vim
-                    (map { '  ' . $_ . ';' } @assignments),
+                    (map { '  ' . $_ . ';' } @directives),
                     '}',
                   )
-                : ( @assignments, '  if ' . $require_clause . $prompt . ';' )
+                : ( @directives , '  if ' . $require_clause . $prompt . ';' )
         ];
     },
 );

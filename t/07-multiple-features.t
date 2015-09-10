@@ -86,7 +86,7 @@ cmp_deeply(
             },
         },
         prereqs => {
-            configure => { requires => { 'ExtUtils::MakeMaker' => ignore } },
+            configure => { requires => ignore },
             test => { requires => { Tester => 0 } },
             # no test recommendations
             develop => { requires => {
@@ -168,16 +168,15 @@ like(
     $content,
     qr!
 # inserted by .*$
-\Qif (eval "require Bar; Bar->VERSION('2.0'); require Foo; Foo->VERSION('1.0'); 1"
+\Qif (has_module('Bar', '2.0') && has_module('Foo', '1.0')
     || prompt('install feature description 1? [Y/n]', 'Y') =~ /^y/i) {\E
-  \$\QWriteMakefileArgs{PREREQ_PM}{'Bar'} = \E\$\QFallbackPrereqs{'Bar'} = '2.0';\E
-  \$\QWriteMakefileArgs{PREREQ_PM}{'Foo'} = \E\$\QFallbackPrereqs{'Foo'} = '1.0';\E
+  \Qrequires('Bar', '2.0');\E
+  \Qrequires('Foo', '1.0');\E
 \}
-\$\QWriteMakefileArgs{PREREQ_PM}{'Baz'} = \E\$\QFallbackPrereqs{'Baz'} = '3.0'\E
-  \Qif eval "require Baz; Baz->VERSION('3.0'); 1"
+\Qrequires('Baz', '3.0')\E
+  \Qif has_module('Baz', '3.0')
     || prompt('install feature description 2? [Y/n]', 'Y') =~ /^y/i;\E
 !m,
-    # } to mollify vim
     'Makefile.PL contains the correct code, in order, for two optional features',
 );
 

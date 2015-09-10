@@ -1,6 +1,7 @@
 Revision history for Dist-Zilla-Plugin-OptionalFeature
 
 {{$NEXT}}
+          - simplify the prompting code with new sugar in [DynamicPrereqs]
 
 0.021     2015-03-05 04:41:16Z
           - Incorporate some minor documentation improvements based on annocpan
