@@ -56,7 +56,7 @@ has default => (
     # NO DEFAULT
 );
 
-has load_prereqs => (
+has check_prereqs => (
     is => 'ro', isa => Bool,
     default => 1,
 );
@@ -81,7 +81,7 @@ has _prereqs => (
     handles => { _prereq_modules => 'keys', _prereq_version => 'get' },
 );
 
-sub mvp_aliases { +{ -relationship => '-type' } }
+sub mvp_aliases { +{ -relationship => '-type', -load_prereqs => '-check_prereqs' } }
 
 around BUILDARGS => sub
 {
@@ -98,7 +98,7 @@ around BUILDARGS => sub
 
     my %opts = (
         map { exists $args->{$_} ? ( substr($_, 1) => delete($args->{$_}) ) : () }
-        qw(-name -description -always_recommend -always_suggest -require_develop -prompt -default -load_prereqs -phase -type));
+        qw(-name -description -always_recommend -always_suggest -require_develop -prompt -default -check_prereqs -phase -type));
     $opts{type} //= delete $args->{'-relationship'} if defined $args->{'-relationship'};
 
     my @other_options = grep { /^-/ } keys %$args;
@@ -161,7 +161,7 @@ has _dynamicprereqs_prompt => (
             $function . "('$_'" . ($version ? ", '$version'" : '') . ')'
         } sort $self->_prereq_modules;
 
-        my $require_clause = !$self->load_prereqs ? ''
+        my $require_clause = !$self->check_prereqs ? ''
             : (join(' && ', map {
                 my $version = $self->_prereq_version($_);
                 "has_module('$_'" . ($version ? ", '$version'" : '') . ')'
@@ -222,7 +222,7 @@ around dump_config => sub
     $config->{+__PACKAGE__} = {
         (map { $_ => $self->$_ } qw(name description )),
         (map { $_ => ($self->$_ ? 1 : 0) } qw(always_recommend always_suggest require_develop prompt)),
-        $self->prompt ? ( load_prereqs => $self->load_prereqs ) : (),
+        $self->prompt ? ( check_prereqs => $self->check_prereqs ) : (),
         # FIXME: YAML::Tiny does not handle leading - properly yet
         # (map { defined $self->$_ ? ( '-' . $_ => $self->$_ ) : () }
         (map { defined $self->$_ ? ( $_ => $self->$_ ) : () } qw(default)),
@@ -428,9 +428,9 @@ prompts.
 Default is C<true> if C<-relationship> is C<requires>.
 C<false> otherwise.
 
-=head2 C<-load_prereqs>
+=head2 C<-check_prereqs>
 
-(Available since version 0.021)
+(Available since version 0.021 as -load_prereqs, 0.022 as its present name)
 
 If set, and C<-prompt> is also set, the prerequisites to be added by the feature
 are checked for in the Perl installation; if the requirements are already met,

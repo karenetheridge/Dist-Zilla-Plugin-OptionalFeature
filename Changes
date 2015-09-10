@@ -5,6 +5,9 @@ Revision history for Dist-Zilla-Plugin-OptionalFeature
           - new -always_suggest option (defaulting to true), to insert
             optional prerequisites into the suggests prereqs for the
             distribution
+          - -load_prereqs option has been renamed to -check_prereqs, now that
+            we use static analysis rather than loading the module to check if
+            it is available
 
 0.021     2015-03-05 04:41:16Z
           - Incorporate some minor documentation improvements based on annocpan
