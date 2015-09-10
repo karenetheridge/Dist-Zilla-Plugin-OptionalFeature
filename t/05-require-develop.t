@@ -48,6 +48,7 @@ use SpecCompliant;
                 },
             },
             prereqs => {
+                # no build recommendations
                 test => { requires => { Tester => 0 } },
                 # no develop prereqs
             },

@@ -70,9 +70,9 @@ binmode STDERR, ':encoding(UTF-8)';
                 },
             },
             prereqs => {
+                # no runtime recommendations
                 configure => { requires => ignore },
                 test => { requires => { Tester => 0 } },
-                # no test recommendations
                 develop => { requires => {
                     'Foo' => '1.0',
                 } },

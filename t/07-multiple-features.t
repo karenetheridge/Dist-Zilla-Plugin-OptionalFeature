@@ -87,8 +87,8 @@ cmp_deeply(
         },
         prereqs => {
             configure => { requires => ignore },
+            # no runtime recommendations
             test => { requires => { Tester => 0 } },
-            # no test recommendations
             develop => { requires => {
                 'Foo' => '1.0',
                 'Bar' => '2.0',

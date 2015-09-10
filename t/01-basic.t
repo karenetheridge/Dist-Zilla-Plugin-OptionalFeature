@@ -55,8 +55,8 @@ binmode STDERR, ':encoding(UTF-8)';
                 },
             },
             prereqs => {
+                # no runtime recommendations
                 test => { requires => { Tester => 0 } },
-                # no test recommendations
                 develop => { requires => { A => 0 } },
             },
             x_Dist_Zilla => superhashof({
@@ -426,8 +426,8 @@ TODO:
                 },
             },
             prereqs => {
+                # no runtime, test recommendations
                 test => { requires => { Tester => 0 } },
-                # no test recommendations
                 develop => { requires => { A => 0, B => 0 } },
             },
             x_Dist_Zilla => superhashof({
@@ -546,6 +546,7 @@ TODO:
                 },
             },
             prereqs => {
+                # no runtime recommendations
                 test => { requires => { Tester => 0 } },
                 develop => { requires => { A => 0 } },
             },

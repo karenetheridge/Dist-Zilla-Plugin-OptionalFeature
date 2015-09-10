@@ -51,8 +51,8 @@ use SpecCompliant;
                 },
             },
             prereqs => {
+                # no runtime recommendations
                 test => { requires => { Tester => 0 } },
-                # no test recommendations
                 develop => { requires => { A => 0 } },
             },
             x_Dist_Zilla => superhashof({
@@ -131,8 +131,8 @@ use SpecCompliant;
                 },
             },
             prereqs => {
+                # no runtime recommendations
                 test => { requires => { Tester => 0 } },
-                # no test recommendations
                 develop => { requires => { A => 0 } },
             },
             x_Dist_Zilla => superhashof({
