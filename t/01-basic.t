@@ -55,7 +55,7 @@ binmode STDERR, ':encoding(UTF-8)';
                 },
             },
             prereqs => {
-                # no runtime recommendations
+                runtime => { suggests => { A => 0 } },
                 test => { requires => { Tester => 0 } },
                 develop => { requires => { A => 0 } },
             },
@@ -67,6 +67,7 @@ binmode STDERR, ':encoding(UTF-8)';
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 0,
                             phase => 'runtime',
@@ -140,6 +141,7 @@ binmode STDERR, ':encoding(UTF-8)';
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 1,
+                            always_suggest => 0,
                             require_develop => 1,
                             prompt => 0,
                             phase => 'build',
@@ -214,6 +216,7 @@ binmode STDERR, ':encoding(UTF-8)';
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 1,
+                            always_suggest => 0,
                             require_develop => 1,
                             prompt => 0,
                             phase => 'test',
@@ -272,8 +275,10 @@ binmode STDERR, ':encoding(UTF-8)';
                 },
             },
             prereqs => {
-                test => { requires => { Tester => 0 } },
-                # no test recommendations
+                test => {
+                    requires => { Tester => 0 },
+                    suggests => { A => 0 },
+                },
                 develop => { requires => { A => 0 } },
             },
             x_Dist_Zilla => superhashof({
@@ -286,6 +291,7 @@ binmode STDERR, ':encoding(UTF-8)';
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 0,
                             phase => 'test',
@@ -344,8 +350,10 @@ binmode STDERR, ':encoding(UTF-8)';
                 },
             },
             prereqs => {
-                test => { requires => { Tester => 0 } },
-                # no test recommendations
+                test => {
+                    requires => { Tester => 0 },
+                    suggests => { A => 0 },
+                },
                 develop => { requires => { A => 0 } },
             },
             x_Dist_Zilla => superhashof({
@@ -358,6 +366,7 @@ binmode STDERR, ':encoding(UTF-8)';
                             name => 'FeatureName',
                             description => 'feature description with "çƦăż\'ɏ" characters',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 0,
                             phase => 'test',
@@ -426,8 +435,11 @@ TODO:
                 },
             },
             prereqs => {
-                # no runtime, test recommendations
-                test => { requires => { Tester => 0 } },
+                runtime => { suggests => { B => 0 } },
+                test => {
+                    requires => { Tester => 0 },
+                    suggests => { A => 0 },
+                },
                 develop => { requires => { A => 0, B => 0 } },
             },
             x_Dist_Zilla => superhashof({
@@ -440,6 +452,7 @@ TODO:
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 0,
                             phase => 'test',
@@ -457,6 +470,7 @@ TODO:
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 0,
                             phase => 'runtime',
@@ -546,7 +560,7 @@ TODO:
                 },
             },
             prereqs => {
-                # no runtime recommendations
+                runtime => { suggests => { A => 0 } },
                 test => { requires => { Tester => 0 } },
                 develop => { requires => { A => 0 } },
             },
@@ -560,6 +574,7 @@ TODO:
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 0,
                             phase => 'runtime',

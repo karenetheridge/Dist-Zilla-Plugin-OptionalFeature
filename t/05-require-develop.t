@@ -48,9 +48,8 @@ use SpecCompliant;
                 },
             },
             prereqs => {
-                # no build recommendations
+                build => { suggests => { A => 0 } },
                 test => { requires => { Tester => 0 } },
-                # no develop prereqs
             },
             x_Dist_Zilla => superhashof({
                 plugins => supersetof({
@@ -62,6 +61,7 @@ use SpecCompliant;
                             name => 'FeatureName',
                             description => 'desc',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 0,
                             prompt => 0,
                             phase => 'build',

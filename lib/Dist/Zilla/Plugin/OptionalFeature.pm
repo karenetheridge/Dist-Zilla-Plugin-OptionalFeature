@@ -33,6 +33,12 @@ has always_recommend => (
     default => 0,
 );
 
+has always_suggest => (
+    is => 'ro', isa => Bool,
+    lazy => 1,
+    default => sub { shift->always_recommend ? 0 : 1 },
+);
+
 has require_develop => (
     is => 'ro', isa => Bool,
     default => 1,
@@ -92,7 +98,7 @@ around BUILDARGS => sub
 
     my %opts = (
         map { exists $args->{$_} ? ( substr($_, 1) => delete($args->{$_}) ) : () }
-        qw(-name -description -always_recommend -require_develop -prompt -default -load_prereqs -phase -type));
+        qw(-name -description -always_recommend -always_suggest -require_develop -prompt -default -load_prereqs -phase -type));
     $opts{type} //= delete $args->{'-relationship'} if defined $args->{'-relationship'};
 
     my @other_options = grep { /^-/ } keys %$args;
@@ -215,7 +221,7 @@ around dump_config => sub
 
     $config->{+__PACKAGE__} = {
         (map { $_ => $self->$_ } qw(name description )),
-        (map { $_ => ($self->$_ ? 1 : 0) } qw(always_recommend require_develop prompt)),
+        (map { $_ => ($self->$_ ? 1 : 0) } qw(always_recommend always_suggest require_develop prompt)),
         $self->prompt ? ( load_prereqs => $self->load_prereqs ) : (),
         # FIXME: YAML::Tiny does not handle leading - properly yet
         # (map { defined $self->$_ ? ( '-' . $_ => $self->$_ ) : () }
@@ -241,14 +247,18 @@ sub register_prereqs
         %{ $self->_prereqs },
     ) if $self->require_develop;
 
-    return if not $self->always_recommend;
-    $self->zilla->register_prereqs(
-        {
-            type  => 'recommends',
-            phase => $self->_prereq_phase,
-        },
-        %{ $self->_prereqs },
-    );
+    foreach my $phase (qw(recommend suggest))
+    {
+        $self->zilla->register_prereqs(
+            {
+                type  => $phase . 's',
+                phase => $self->_prereq_phase,
+            },
+            %{ $self->_prereqs },
+        ) if $self->${\"always_$phase"};
+    }
+
+    return;
 }
 
 sub metadata
@@ -389,6 +399,15 @@ recommendations with C<--with-recommends>, even when running
 non-interactively).
 
 Defaults to C<false>, but I recommend you turn this on.
+
+=head2 C<-always_suggest>
+
+(Available since version 0.022)
+
+If set with a true value, the prerequisites are added to the distribution's
+metadata as suggested prerequisites.
+
+Defaults to the inverse of C<-always_recommend>.
 
 =head2 C<-require_develop>
 

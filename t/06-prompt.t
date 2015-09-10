@@ -72,6 +72,7 @@ binmode STDERR, ':encoding(UTF-8)';
             prereqs => {
                 # no runtime recommendations
                 configure => { requires => ignore },
+                runtime => { suggests => { 'Foo' => '1.0' } },
                 test => { requires => { Tester => 0 } },
                 develop => { requires => {
                     'Foo' => '1.0',
@@ -88,6 +89,7 @@ binmode STDERR, ':encoding(UTF-8)';
                                 name => 'FeatureName',
                                 description => 'feature description',
                                 always_recommend => 0,
+                                always_suggest => 1,
                                 require_develop => 1,
                                 prompt => 1,
                                 default => 1,
@@ -185,8 +187,13 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
             },
             prereqs => {
                 configure => { requires => ignore },
-                test => { requires => { Tester => 0 } },
-                # no test recommendations
+                test => {
+                    requires => { Tester => 0 },
+                    suggests => {
+                        'Foo' => '1.0',
+                        'Bar' => '2.0',
+                    },
+                },
                 develop => { requires => {
                     'Foo' => '1.0',
                     'Bar' => '2.0',
@@ -203,6 +210,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
                                 name => 'FeatureName',
                                 description => 'feature description',
                                 always_recommend => 0,
+                                always_suggest => 1,
                                 require_develop => 1,
                                 prompt => 1,
                                 default => 0,
@@ -338,8 +346,13 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
             },
             prereqs => {
                 configure => { requires => ignore },
-                test => { requires => { Tester => 0 } },
-                # no test recommendations
+                test => {
+                    requires => { Tester => 0 },
+                    suggests => {
+                        'Foo' => '1.0',
+                        'Bar' => '2.0',
+                    },
+                },
                 develop => { requires => {
                     'Foo' => '1.0',
                     'Bar' => '2.0',
@@ -356,6 +369,7 @@ Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
                                 name => 'FeatureName',
                                 description => 'feature description with "çƦăż\'ɏ" characters',
                                 always_recommend => 0,
+                                always_suggest => 1,
                                 require_develop => 1,
                                 prompt => 1,
                                 default => 0,

@@ -49,6 +49,7 @@ use Config::MVP::Reader::INI 2.101461;  # for spaces in section names
             },
         },
         prereqs => {
+            runtime => { suggests => { A => 0 } },
             develop => { requires => { A => 0 } },
         },
     });

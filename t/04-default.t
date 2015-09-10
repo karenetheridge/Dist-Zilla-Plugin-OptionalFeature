@@ -51,7 +51,7 @@ use SpecCompliant;
                 },
             },
             prereqs => {
-                # no runtime recommendations
+                runtime => { suggests => { A => 0 } },
                 test => { requires => { Tester => 0 } },
                 develop => { requires => { A => 0 } },
             },
@@ -65,6 +65,7 @@ use SpecCompliant;
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 0,
                             default => 1,
@@ -131,7 +132,7 @@ use SpecCompliant;
                 },
             },
             prereqs => {
-                # no runtime recommendations
+                runtime => { suggests => { A => 0 } },
                 test => { requires => { Tester => 0 } },
                 develop => { requires => { A => 0 } },
             },
@@ -145,6 +146,7 @@ use SpecCompliant;
                             name => 'FeatureName',
                             description => 'feature description',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 0,
                             default => 0,

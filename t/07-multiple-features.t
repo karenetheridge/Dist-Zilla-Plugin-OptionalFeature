@@ -86,6 +86,11 @@ cmp_deeply(
             },
         },
         prereqs => {
+            runtime => { suggests => {
+                'Foo' => '1.0',
+                'Bar' => '2.0',
+                'Baz' => '3.0',
+            } },
             configure => { requires => ignore },
             # no runtime recommendations
             test => { requires => { Tester => 0 } },
@@ -112,6 +117,7 @@ cmp_deeply(
                             name => 'FeatureOne',
                             description => 'feature description 1',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 1,
                             default => 1,
@@ -134,6 +140,7 @@ cmp_deeply(
                             name => 'FeatureTwo',
                             description => 'feature description 2',
                             always_recommend => 0,
+                            always_suggest => 1,
                             require_develop => 1,
                             prompt => 1,
                             default => 1,
