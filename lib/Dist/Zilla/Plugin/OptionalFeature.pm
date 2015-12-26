@@ -412,6 +412,8 @@ Defaults to the inverse of C<-always_recommend>.
 
 =head2 C<-require_develop>
 
+(Available since version 0.011)
+
 If set with a true value, the prerequisites are added to the distribution's
 metadata as develop requires prerequisites (e.g. L<cpanminus> will install
 recommendations with C<--with-develop>, even when running
