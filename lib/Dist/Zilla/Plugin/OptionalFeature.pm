@@ -241,8 +241,8 @@ sub register_prereqs
 
     $self->zilla->register_prereqs(
         {
-            type  => 'requires',
             phase => 'develop',
+            type  => 'requires',
         },
         %{ $self->_prereqs },
     ) if $self->require_develop;
@@ -251,8 +251,8 @@ sub register_prereqs
     {
         $self->zilla->register_prereqs(
             {
-                type  => $phase . 's',
                 phase => $self->_prereq_phase,
+                type  => $phase . 's',
             },
             %{ $self->_prereqs },
         ) if $self->${\"always_$phase"};
