@@ -201,6 +201,7 @@ sub before_build
         my $plugin = use_module('Dist::Zilla::Plugin::DynamicPrereqs')->new(
             zilla => $self->zilla,
             plugin_name => 'via OptionalFeature',
+            # if we require 0.018, we can s/raw/body/.
             raw => [
                 join("\n",
                     map {
