@@ -1,6 +1,6 @@
 Revision history for Dist-Zilla-Plugin-OptionalFeature
 
-{{$NEXT}}
+0.022     2016-02-10 04:58:42Z
           - simplify the prompting code with new sugar in [DynamicPrereqs]
           - new -always_suggest option (defaulting to true), to insert
             optional prerequisites into the suggests prereqs for the
