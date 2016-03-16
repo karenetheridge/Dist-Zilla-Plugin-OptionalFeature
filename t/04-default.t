@@ -89,6 +89,8 @@ use SpecCompliant;
         if not Test::Builder->new->is_passing;
 }
 
+Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
+
 {
     # if we always provide x_default in the metadata, this test is pretty
     # redundant with most of t/01-basic.t.

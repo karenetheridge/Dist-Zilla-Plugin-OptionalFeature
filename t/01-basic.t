@@ -89,6 +89,8 @@ binmode STDERR, ':encoding(UTF-8)';
         if not Test::Builder->new->is_passing;
 }
 
+Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
+
 {
     my $tzil = Builder->from_config(
         { dist_root => 't/corpus/dist/DZT' },
@@ -160,6 +162,8 @@ binmode STDERR, ':encoding(UTF-8)';
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
+
+Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
 
 {
     my $tzil = Builder->from_config(
@@ -236,6 +240,8 @@ binmode STDERR, ':encoding(UTF-8)';
         if not Test::Builder->new->is_passing;
 }
 
+Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
+
 {
     my $tzil = Builder->from_config(
         { dist_root => 't/corpus/dist/DZT' },
@@ -311,6 +317,8 @@ binmode STDERR, ':encoding(UTF-8)';
         if not Test::Builder->new->is_passing;
 }
 
+Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
+
 {
     my $tzil = Builder->from_config(
         { dist_root => 't/corpus/dist/DZT' },
@@ -385,6 +393,8 @@ binmode STDERR, ':encoding(UTF-8)';
     diag 'got log messages: ', explain $tzil->log_messages
         if not Test::Builder->new->is_passing;
 }
+
+Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
 
 TODO:
 {
@@ -490,6 +500,8 @@ TODO:
         if not Test::Builder->new->is_passing;
 }
 
+Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
+
 {
     like( exception {
         Builder->from_config(
@@ -513,6 +525,8 @@ TODO:
         'private attrs cannot be set directly',
     );
 }
+
+Dist::Zilla::Plugin::OptionalFeature::__clear_master_plugin();
 
 {
     my $tzil;
