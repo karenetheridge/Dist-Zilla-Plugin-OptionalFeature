@@ -18,6 +18,7 @@ use Config::MVP::Reader::INI 2.101461;  # for spaces in section names
             add_files => {
                 path(qw(source dist.ini)) => simple_ini(
                     [ GatherDir => ],
+                    [ MakeMaker => ],
                     [ OptionalFeature => 'Feature Name' => {
                             -description => 'feature description',
                             # use default phase, type
