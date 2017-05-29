@@ -9,7 +9,7 @@ use YAML::Tiny;
 use JSON::MaybeXS;
 use Test::CPAN::Meta::YAML::Version;
 use Test::CPAN::Meta::JSON::Version;
-use Test::More;
+use Test::More 0.96;
 use Path::Tiny;
 
 # diag uses todo_output if in_todo :/
