@@ -12,9 +12,7 @@ use Path::Tiny;
 use lib 't/lib';
 use SpecCompliant;
 
-binmode Test::More->builder->$_, ':encoding(UTF-8)' foreach qw(output failure_output todo_output);
-binmode STDOUT, ':encoding(UTF-8)';
-binmode STDERR, ':encoding(UTF-8)';
+use open ':std', ':encoding(UTF-8)'; # force stdin, stdout, stderr into utf8
 
 # need a simple feature with two runtime prereqs, defaulting to y
 # observe that Makefile.PL is munged with correct content
