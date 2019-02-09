@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 
+use open ':std', ':encoding(UTF-8)'; # force stdin, stdout, stderr into utf8
 use utf8;
 use Test::More 0.88;
 use Test::Warnings 0.009 ':no_end_test', ':all';
@@ -11,8 +12,6 @@ use Path::Tiny;
 
 use lib 't/lib';
 use SpecCompliant;
-
-use open ':std', ':encoding(UTF-8)'; # force stdin, stdout, stderr into utf8
 
 {
     my $tzil = Builder->from_config(
