@@ -13,8 +13,8 @@ with
     'Dist::Zilla::Role::MetaProvider',
     'Dist::Zilla::Role::PrereqSource';
 
-use MooseX::Types::Moose qw(HashRef Bool);
-use MooseX::Types::Common::String 'NonEmptySimpleStr';
+use Types::Standard qw(Bool HashRef);
+use Types::Common::String 'NonEmptySimpleStr';
 use Carp 'confess';
 use Module::Runtime 'use_module';
 use namespace::autoclean;
