@@ -1,4 +1,3 @@
-sudo: false
 addons:
   apt:
     packages:
@@ -6,7 +5,8 @@ addons:
       - aspell-en
 language: perl
 perl:
-  - "blead"
+  - blead
+  - dev
   - "5.28"
   - "5.26"
   - "5.24"
