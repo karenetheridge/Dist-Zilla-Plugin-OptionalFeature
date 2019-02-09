@@ -90,18 +90,18 @@ around BUILDARGS => sub
 
     my $args = $class->$orig(@_);
 
-    my @private = grep { /^_/ } keys %$args;
+    my @private = grep /^_/, keys %$args;
     confess "Invalid options: @private" if @private;
 
     # pull these out so they don't become part of our prereq list
     my ($zilla, $plugin_name) = delete @{$args}{qw(zilla plugin_name)};
 
     my %opts = (
-        map { exists $args->{$_} ? ( substr($_, 1) => delete($args->{$_}) ) : () }
-        qw(-name -description -always_recommend -always_suggest -require_develop -prompt -default -check_prereqs -phase -type));
+        map exists $args->{$_} ? ( substr($_, 1) => delete($args->{$_}) ) : (),
+            qw(-name -description -always_recommend -always_suggest -require_develop -prompt -default -check_prereqs -phase -type));
     $opts{type} //= delete $args->{'-relationship'} if defined $args->{'-relationship'};
 
-    my @other_options = grep { /^-/ } keys %$args;
+    my @other_options = grep /^-/, keys %$args;
     delete @{$args}{@other_options};
     warn "[OptionalFeature] warning: unrecognized option(s): @other_options" if @other_options;
 
@@ -172,7 +172,7 @@ has _dynamicprereqs_prompt => (
             @directives > 1
                 ? (
                     'if (' . $require_clause . $prompt . ') {',   # to mollify vim
-                    (map { '  ' . $_ . ';' } @directives),
+                    (map '  '.$_ .';', @directives),
                     '}',
                   )
                 : ( @directives , '  if ' . $require_clause . $prompt . ';' )
@@ -204,9 +204,9 @@ sub before_build
             # if we require 0.018, we can s/raw/body/.
             raw => [
                 join("\n",
-                    map {
-                        join("\n", $_->prompt ? @{ $_->_dynamicprereqs_prompt } : ())
-                    } grep { $_->isa(__PACKAGE__) } @{ $self->zilla->plugins },
+                    map
+                        join("\n", $_->prompt ? @{ $_->_dynamicprereqs_prompt } : ()),
+                        grep $_->isa(__PACKAGE__), @{ $self->zilla->plugins },
                 )
             ],
         );
@@ -221,12 +221,12 @@ around dump_config => sub
     my $config = $self->$orig;
 
     $config->{+__PACKAGE__} = {
-        (map { $_ => $self->$_ } qw(name description )),
-        (map { $_ => ($self->$_ ? 1 : 0) } qw(always_recommend always_suggest require_develop prompt)),
+        (map +($_ => $self->$_), qw(name description )),
+        (map +($_ => ($self->$_ ? 1 : 0)), qw(always_recommend always_suggest require_develop prompt)),
         $self->prompt ? ( check_prereqs => $self->check_prereqs ) : (),
         # FIXME: YAML::Tiny does not handle leading - properly yet
         # (map { defined $self->$_ ? ( '-' . $_ => $self->$_ ) : () }
-        (map { defined $self->$_ ? ( $_ => $self->$_ ) : () } qw(default)),
+        (map +(defined $self->$_ ? ( $_ => $self->$_ ) : ()), qw(default)),
         phase => $self->_prereq_phase,
         type => $self->_prereq_type,
         prereqs => $self->_prereqs,

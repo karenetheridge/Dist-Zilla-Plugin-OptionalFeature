@@ -57,7 +57,7 @@ my $distmeta = $tzil->distmeta;
 
 # splice out all FinderCodes, since we don't know how many of them there are
 $distmeta->{x_Dist_Zilla}{plugins} = [
-    grep { $_->{class} ne 'Dist::Zilla::Plugin::FinderCode' } @{ $distmeta->{x_Dist_Zilla}{plugins} }
+    grep $_->{class} ne 'Dist::Zilla::Plugin::FinderCode', @{ $distmeta->{x_Dist_Zilla}{plugins} }
 ];
 
 cmp_deeply(
